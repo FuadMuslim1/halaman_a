@@ -3,10 +3,20 @@
 // ====================================================
 
 (function() {
+  // =====================
+  // 0. Tambahkan Google Fonts
+  // =====================
+  const link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = 'https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@400;500;700&display=swap';
+  document.head.appendChild(link);
+
+  // =====================
   // 1. Tambahkan CSS dinamis
+  // =====================
   const style = document.createElement('style');
   style.textContent = `
-    * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'Roboto', 'Segoe UI', sans-serif; }
 
     body {
       width:100%;
@@ -34,6 +44,7 @@
       font-size:2.5rem;
       color:#333;
       letter-spacing:1px;
+      font-family: 'Montserrat', sans-serif;
     }
 
     .word-grid {
@@ -117,7 +128,6 @@
       color:#f0f0f0 !important;
     }
 
-    /* Word Card gelap dan font kontras di focus mode */
     body.focus-active .module-container.focus-primary .word-card {
       background: linear-gradient(135deg, #090909, #111);
     }
@@ -127,7 +137,6 @@
       color: #f8f0f0;
     }
 
-    /* Neon outline dengan pulse lambat hanya focus mode */
     body.focus-active .module-container.focus-primary .word-card::before {
       content:"";
       position:absolute;

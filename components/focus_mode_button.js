@@ -1,5 +1,13 @@
-// focus_mode_button.js
+// focus_mode_button.js — Eye-catching fonts
 (function() {
+  // =====================
+  // 0. Add Google Fonts
+  // =====================
+  const link = document.createElement('link');
+  link.href = "https://fonts.googleapis.com/css2?family=Poppins:wght@700&family=Roboto:wght@400;500&display=swap";
+  link.rel = "stylesheet";
+  document.head.appendChild(link);
+
   // =====================
   // 1. Add CSS to <head>
   // =====================
@@ -7,7 +15,7 @@
   style.textContent = `
     body {
       margin: 0;
-      font-family: sans-serif;
+      font-family: 'Roboto', sans-serif;
       background-color: #f9f9f9;
       display: flex;
       flex-direction: column;
@@ -17,43 +25,36 @@
       color: #111;
     }
 
+    /* Gradient Heading with Shadow */
     h1.center-text {
-      font-size: 3rem; /* larger */
-      font-weight: 700; /* bold */
-      letter-spacing: 1px; /* modern spacing */
-    }
-
-    p.center-text:first-of-type {
-      font-size: 1.8rem; /* Lax */
-      font-weight: 600;
-      margin-bottom: 5px;
-    }
-
-    p.center-text:last-of-type {
-      font-size: 2.5rem; /* /ʌ/ */
+      font-family: 'Poppins', sans-serif;
+      font-size: 3rem;
       font-weight: 700;
-      margin-bottom: 20px;
-    }
-
-    .center-text {
-      text-align: center;
-    }
-
-    h1.center-text {
+      letter-spacing: 1px;
       margin-bottom: 10px;
+      background: linear-gradient(90deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
     }
 
     p.center-text:first-of-type {
+      font-size: 1.8rem;
+      font-weight: 500;
       margin-bottom: 10px;
     }
 
     p.center-text:last-of-type {
+      font-size: 2.5rem;
+      font-weight: 700;
       margin-bottom: 10px;
     }
+
+    .center-text { text-align: center; }
 
     .main-content {
       padding: 30px;
-      transition: color 0.3s, padding-bottom 0.3s, padding-top: 150px;
+      transition: color 0.3s, padding-bottom 0.3s, padding-top 0.3s;
     }
 
     .focus-active {
@@ -82,6 +83,7 @@
       margin-top: 5px;
     }
 
+    /* Eye-catching gradient button */
     .gradient-button {
       position: relative;
       display: inline-block;
@@ -89,21 +91,19 @@
       padding: 10px 18px;
       background-color: #111;
       color: white;
-      font-weight: bold;
+      font-family: 'Roboto', sans-serif;
+      font-weight: 500;
       cursor: pointer;
       overflow: hidden;
       z-index: 0;
       font-size: 14px;
-      transition: color 0.3s, background-color 0.3s;
+      transition: color 0.3s, background-color 0.3s, transform 0.2s;
     }
 
     .gradient-button::before {
       content: '';
       position: absolute;
-      top: -3px;
-      left: -3px;
-      right: -3px;
-      bottom: -3px;
+      top: -3px; left: -3px; right: -3px; bottom: -3px;
       background: conic-gradient(from 0deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888, #f09433);
       border-radius: 50px;
       z-index: -1;
@@ -129,6 +129,7 @@
     }
 
     .gradient-button:hover {
+      transform: scale(1.05);
       background-color: #222;
       color: #fff;
     }
@@ -148,9 +149,7 @@
       overflow: hidden;
     }
 
-    #floatingPlayer.active {
-      display: block;
-    }
+    #floatingPlayer.active { display: block; }
 
     #floatingPlayer .close-btn {
       position: absolute;
@@ -161,26 +160,16 @@
       color: white;
       border: none;
       border-radius: 50%;
-      width: 24px;
-      height: 24px;
+      width: 24px; height: 24px;
       cursor: pointer;
     }
 
     @media (max-width: 600px) {
-      #floatingPlayer {
-        height: 220px;
-        width: 80%;
-      }
-
-      .gradient-button {
-        padding: 8px 14px;
-        font-size: 12px;
-      }
+      #floatingPlayer { height: 220px; width: 80%; }
+      .gradient-button { padding: 8px 14px; font-size: 12px; }
     }
 
-    #showBtn {
-      display: none;
-    }
+    #showBtn { display: none; }
 
     #exampleWords ul {
       list-style: none;
@@ -275,16 +264,14 @@
       focusModeBtn.classList.add('active');
       focusModeBtn.textContent = 'Normal Mode';
       focusControls.style.display = 'flex';
-      document.body.classList.add('focus-active'); // apply to body
+      document.body.classList.add('focus-active');
       mainContent.style.paddingBottom = "100px";
       const offsetTop = exampleWords.getBoundingClientRect().top + window.scrollY - 20;
       window.scrollTo({ top: offsetTop, behavior: 'smooth' });
       if (playerReady) {
         player.seekTo(0, true);
         player.playVideo();
-      } else {
-        playQueue.push("play");
-      }
+      } else { playQueue.push("play"); }
     } else {
       focusModeBtn.classList.remove('active');
       focusModeBtn.textContent = 'Focus Mode';
@@ -316,12 +303,8 @@
       height: '100%',
       width: '100%',
       videoId: 'e6rjJiOxVCs',
-      playerVars: {
-        controls: 1
-      },
-      events: {
-        onReady: onPlayerReady
-      }
+      playerVars: { controls: 1 },
+      events: { onReady: onPlayerReady }
     });
   };
   function onPlayerReady() {
@@ -344,9 +327,7 @@
     floatingPlayer.style.left = e.clientX - offsetX + "px";
     floatingPlayer.style.top = e.clientY - offsetY + "px";
   });
-  document.addEventListener("mouseup", () => {
-    isDragging = false;
-  });
+  document.addEventListener("mouseup", () => { isDragging = false; });
   closeFloating.addEventListener("click", () => {
     floatingPlayer.classList.remove('active');
     setTimeout(() => floatingPlayer.style.display = 'none', 300);
