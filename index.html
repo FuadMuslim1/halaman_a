@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Learning English</title>
+
+  <!-- Font Awesome global for icons in shadow DOM -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="components/website_name.css">
+  <link rel="stylesheet" href="ʌ.css">
+</head>
+<body>
+
+  <!-- Call custom elements -->
+  <my-sidebar></my-sidebar>
+  <!-- Call custom element go back button -->
+  <go-back-button></go-back-button>
+
+  <!-- Main content -->
+  <div id="headerTitle">Learning English Geuwat</div>
+
+  <!-- Load Web Component JS -->
+  <script type="module" src="components/sidebar.js"></script>
+  <script type="module" src="components/button_go_back.js"></script>
+  <script type="module" src="components/focus_mode_button.js"></script>
+  <script type="module" src="components/tips.js"></script>
+  <script type="module" src="components/example.js"></script>
+  <script type="module" src="components/record.js"></script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+/* =========================
+   GLOBAL THEME (INDEX)
+   ========================= */
+:root {
+  --bg-color: #f9f9f9;
+  --text-color: #111;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* All text elements follow */
+h1, h2, h3, p, li, span, a, button {
+  color: var(--text-color);
+}
+
+/* FOCUS MODE */
+body.focus-mode {
+  --bg-color: #111;
+  --text-color: #fff;
+}
+
+/* ===============================
+   OVERRIDE FOCUS MODE
+   Keep "Examples:" color
+   =============================== */
+body.focus-active .container > h1 {
+  color: #333 !important;
+}
+
