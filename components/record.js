@@ -96,10 +96,21 @@
       Let's get practice!
       <span class="fire-icon">🔥</span>
     </h1>
+    <div class="click-hint">
+      <span class="up-arrow">⬆️</span>
+      <span class="up-arrow">⬆️</span>
+      <span class="up-arrow">⬆️</span>
+    </div>
+    <div class="click-hint">
+      <span class="click-text">Click</span>
+    </div>
+
     <div class="overlay"></div>
     <div id="recordModulatorPopup" class="hidden">
       <h3>Correction Steps</h3>
       <p class="popupHighlight">
+        Rekam suara Anda menggunakan tombol ⏺ di bawah.<br>
+        Setelah selesai, unduh file audio dan simpan di pc/android Anda.<br>  
         Buka halaman <a href="https://gemini.google.com/app" target="_blank">https://gemini.google.com/app</a><br>
         Upload rekaman audio Anda<br>
         Gunakan prompt berikut:
@@ -246,6 +257,10 @@
   ========================= */
   recordBtn.onclick=async()=>{
     if(recordBtn.classList.contains('locked')) return;
+
+     // Scroll otomatis ke paling atas
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
     if(!recorder){ await startRecording(); recordBtn.textContent='⏹'; recordBtn.classList.add('blink'); }
     else { recorder.stop(); recordBtn.classList.remove('blink'); recordBtn.textContent='⏺'; }
   }

@@ -37,9 +37,7 @@ class MySidebar extends HTMLElement {
           z-index: 1001;
         }
 
-        #menuButton:hover {
-          transform: scale(1.12);
-        }
+        #menuButton:hover { transform: scale(1.12); }
 
         /* Sidebar */
         .sidebar {
@@ -56,14 +54,9 @@ class MySidebar extends HTMLElement {
           box-shadow: 2px 0 6px rgba(0,0,0,0.1);
         }
 
-        .sidebar.active {
-          left: 0;
-        }
+        .sidebar.active { left: 0; }
 
-        ul {
-          list-style: none;
-          padding: 0 20px;
-        }
+        ul { list-style: none; padding: 0 20px; }
 
         li {
           position: relative;
@@ -91,13 +84,7 @@ class MySidebar extends HTMLElement {
           box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
 
-        li a {
-          color: #000;
-          text-decoration: none;
-          width: 100%;
-          display: flex;
-          align-items: center;
-        }
+        li a { color: #000; text-decoration: none; width: 100%; display: flex; align-items: center; }
 
         .tooltip {
           position: absolute;
@@ -118,52 +105,24 @@ class MySidebar extends HTMLElement {
           transition: opacity 0.3s ease, transform 0.3s ease;
         }
 
-        li.coming-soon:hover .tooltip {
-          opacity: 1;
-          transform: translateY(-50%) translateX(0);
-        }
+        li.coming-soon:hover .tooltip { opacity: 1; transform: translateY(-50%) translateX(0); }
 
         /* Special Logout */
-        #logoutItem {
-          color: red;
-          font-weight: bold;
-        }
-
-        #logoutItem:hover {
-          background-color: #fee;
-        }
+        #logoutItem { color: red; font-weight: bold; }
+        #logoutItem:hover { background-color: #fee; }
 
         /* MOBILE MEDIA QUERY */
         @media (max-width: 600px) {
-          #menuButton {
-            width: 45px;
-            height: 45px;
-            font-size: 18px;
-            top: 15px;
-            left: 15px;
-          }
-
-          .sidebar {
-            width: 220px;
-            padding-top: 60px;
-          }
-
-          li {
-            padding: 10px 18px;
-            font-size: 14px;
-          }
-
+          #menuButton { width: 45px; height: 45px; font-size: 18px; top: 15px; left: 15px; }
+          .sidebar { width: 220px; padding-top: 60px; }
+          li { padding: 10px 18px; font-size: 14px; }
           .tooltip {
-            font-size: 10px;
-            padding: 2px 6px;
+            left: auto; right: 10px; top: auto; bottom: 10px;
+            transform: none; font-size: 10px; padding: 2px 6px;
           }
         }
 
-        @media (max-width: 400px) {
-          .sidebar.active {
-            width: 100%;
-          }
-        }
+        @media (max-width: 400px) { .sidebar.active { width: 100%; } }
       </style>
 
       <button id="menuButton"><i class="fas fa-bars"></i></button>
@@ -185,28 +144,63 @@ class MySidebar extends HTMLElement {
     const sidebar = this.shadowRoot.getElementById('sidebar');
     const content = document.getElementById('content');
 
+    // Toggle sidebar
     menuButton.addEventListener('click', e => {
       e.stopPropagation();
       sidebar.classList.toggle('active');
-      if (content) content.classList.toggle('shift');
+      if (content && window.innerWidth > 400) content.classList.toggle('shift');
     });
 
+    // Close when clicking outside
+    document.addEventListener('click', e => {
+      if (!sidebar.contains(e.target) && e.target !== menuButton) {
+        sidebar.classList.remove('active');
+        if (content) content.classList.remove('shift');
+      }
+    });
+
+    // Close when clicking content (desktop only)
     if (content) {
       content.addEventListener('click', () => {
-        sidebar.classList.remove('active');
-        content.classList.remove('shift');
+        if (window.innerWidth > 400) {
+          sidebar.classList.remove('active');
+          content.classList.remove('shift');
+        }
       });
     }
 
+    // Item click handling
     sidebar.querySelectorAll('li').forEach(item => {
-      item.addEventListener('click', () => {
-        sidebar.classList.remove('active');
-        if (content) content.classList.remove('shift');
-      });
+      if (item.classList.contains('coming-soon')) {
+        // Mobile: show tooltip, jangan tutup sidebar langsung
+        item.addEventListener('click', e => {
+          if (window.innerWidth <= 600) {
+            e.stopPropagation();
+            const tooltip = item.querySelector('.tooltip');
+            if (tooltip) {
+              tooltip.style.opacity = '1';
+              setTimeout(() => { tooltip.style.opacity = '0'; }, 1500);
+            }
+          } else {
+            sidebar.classList.remove('active');
+            if (content) content.classList.remove('shift');
+          }
+        });
+      } else {
+        // Normal item: tutup sidebar
+        item.addEventListener('click', () => {
+          sidebar.classList.remove('active');
+          if (content && window.innerWidth > 400) content.classList.remove('shift');
+        });
+      }
     });
 
-    document.addEventListener('click', (e) => {
-      if (!sidebar.contains(e.target) && e.target !== menuButton) {
+    // Swipe to close sidebar (mobile)
+    let touchStartX = 0;
+    sidebar.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].clientX; });
+    sidebar.addEventListener('touchend', e => {
+      let touchEndX = e.changedTouches[0].clientX;
+      if (window.innerWidth <= 600 && touchEndX - touchStartX < -50) {
         sidebar.classList.remove('active');
         if (content) content.classList.remove('shift');
       }

@@ -4,50 +4,58 @@ class GoBackButton extends HTMLElement {
     this.attachShadow({ mode: 'open' });
 
     this.shadowRoot.innerHTML = `
-      <!-- Font Awesome CDN -->
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
       <style>
-        #goBackButton {
+        .wrapper {
           position: fixed;
           top: 15px;
           right: 15px;
           width: 45px;
           height: 45px;
           border-radius: 50%;
-          border: 3px solid;
-          border-image: linear-gradient(45deg, #feda75, #fa7e1e, #d62976, #8134af) 1;
-          background-color: #fff;
+          background: linear-gradient(45deg, #feda75, #fa7e1e, #d62976, #8134af);
           display: flex;
-          justify-content: center;
           align-items: center;
+          justify-content: center;
           cursor: pointer;
           z-index: 1002;
+        }
+
+        .button {
+          width: 37px;
+          height: 37px;
+          border-radius: 50%;
+          background: #fff;
+          display: flex;
+          align-items: center;
+          justify-content: center;
           box-shadow: 0 2px 5px rgba(0,0,0,0.3);
           transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
-        #goBackButton:hover {
-          transform: scale(1.1);
-          box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        .wrapper:hover .button {
+          transform: scale(1.08);
+          box-shadow: 0 4px 10px rgba(0,0,0,0.35);
         }
 
-        #goBackButton i {
-          color: #000;
+        i {
           font-size: 18px;
+          color: #000;
         }
       </style>
 
-      <div id="goBackButton">
-        <i class="fas fa-arrow-left"></i>
+      <div class="wrapper" id="goBackButton">
+        <div class="button">
+          <i class="fas fa-arrow-left"></i>
+        </div>
       </div>
     `;
   }
 
   connectedCallback() {
-    const goBackButton = this.shadowRoot.getElementById('goBackButton');
-    goBackButton.addEventListener('click', () => {
-      history.back();
-    });
+    this.shadowRoot
+      .getElementById('goBackButton')
+      .addEventListener('click', () => history.back());
   }
 }
 
