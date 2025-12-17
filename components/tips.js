@@ -1,10 +1,7 @@
 // ====================================================
-// MODULATOR: Tips Popup UI
+// MODULATOR: Tips Popup UI (Final Clean & Text Rapi, tanpa favicon)
 // ====================================================
 (function() {
-  // =====================
-  // 1. Tambahkan CSS ke <head>
-  // =====================
   const style = document.createElement('style');
   style.textContent = `
     :root {
@@ -19,6 +16,7 @@
       background: var(--dark);
       min-height: 100vh;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
     }
@@ -33,9 +31,12 @@
       color: white;
       font-size: 22px;
       transition: transform .2s ease, box-shadow .2s ease;
-      top : 20px;
+      margin-top: 10px;
     }
-    .tips-btn:hover { transform: scale(1.08) rotate(6deg); box-shadow: 0 14px 30px rgba(0,0,0,.55); }
+    .tips-btn:hover {
+      transform: scale(1.08) rotate(6deg);
+      box-shadow: 0 14px 30px rgba(0,0,0,.55);
+    }
     .overlay {
       position: fixed;
       inset: 0;
@@ -45,33 +46,87 @@
       justify-content: center;
       backdrop-filter: blur(6px);
       z-index: 1000;
+      padding: 10px;
     }
     .overlay.active { display: flex; }
     .popup {
       background: linear-gradient(160deg, #1b1b22, #0f0f12);
       padding: 28px;
       border-radius: 20px;
-      width: 280px;
+      width: 100%;
+      max-width: 320px;
       box-shadow: 0 20px 50px rgba(0,0,0,.7);
       animation: pop .35s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
     @keyframes pop { from { transform: scale(.85); opacity:0;} to {transform: scale(1); opacity:1;} }
-    .popup h3 { margin-bottom:18px; font-size:18px; text-align:center; background: linear-gradient(90deg, var(--ig-1), var(--ig-2), var(--ig-3)); -webkit-background-clip:text; -webkit-text-fill-color:transparent;}
-    .popup-actions { display:grid; gap:14px; }
-    .popup-actions button { padding:14px; border-radius:14px; border:none; cursor:pointer; font-size:14px; font-weight:600; color:#fff; transition: transform .15s ease, box-shadow .15s ease;}
+    .popup h3 {
+      margin-bottom: 16px;
+      font-size: 20px;
+      text-align: center;
+      background: linear-gradient(90deg, var(--ig-1), var(--ig-2), var(--ig-3));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    #detailTitle {
+      font-size: 18px;
+      text-align: center;
+      margin-bottom: 12px;
+      font-weight: 600;
+      color: #fff;
+    }
+    #detailText {
+      font-size: 15px;
+      line-height: 1.7;
+      color: #ddd;
+      margin-top: 8px;
+      white-space: pre-line;
+      word-wrap: break-word;
+      text-align: left;
+      width: 100%;
+    }
+    .popup-actions {
+      display: grid;
+      gap: 12px;
+      margin-top: 10px;
+      width: 100%;
+    }
+    .popup-actions button {
+      padding: 12px;
+      border-radius: 14px;
+      border:none;
+      cursor:pointer;
+      font-size:14px;
+      font-weight:600;
+      color:#fff;
+      transition: transform .15s ease, box-shadow .15s ease;
+      width: 100%;
+    }
     .popup-actions button:nth-child(1) { background: linear-gradient(135deg, var(--ig-1), var(--ig-2));}
     .popup-actions button:nth-child(2) { background: linear-gradient(135deg, var(--ig-2), var(--ig-3));}
     .popup-actions button:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,.4);}
-    .close { margin-top:18px; text-align:center; font-size:12px; color:#aaa; cursor:pointer; }
+    .close {
+      margin-top:16px;
+      text-align:center;
+      font-size:12px;
+      color:#aaa;
+      cursor:pointer;
+      width: 100%;
+    }
     .close:hover { color:#fff; }
-    #detailImage { width:100%; border-radius:14px; margin-bottom:14px; display:none; }
-    #detailText { font-size:14px; line-height:1.5; color:#ddd; }
+    #detailImage {
+      width:100%;
+      max-width:100%;
+      height:auto;
+      border-radius:14px;
+      margin-bottom:14px;
+      display:none;
+    }
   `;
   document.head.appendChild(style);
 
-  // =====================
-  // 2. Tambahkan HTML ke body
-  // =====================
   const container = document.createElement('div');
   container.innerHTML = `
     <button class="tips-btn" id="openTips">💡</button>
@@ -98,9 +153,6 @@
   `;
   document.body.appendChild(container);
 
-  // =====================
-  // 3. Logic interaksi
-  // =====================
   const overlay = document.getElementById('overlay');
   const detailOverlay = document.getElementById('detailOverlay');
   const openBtn = document.getElementById('openTips');
@@ -110,12 +162,14 @@
   const detailImage = document.getElementById('detailImage');
   const detailText = document.getElementById('detailText');
 
+  detailImage.referrerPolicy = 'no-referrer';
+
   const ipaData = {
     'ʌ': {
       sound: {
         title: 'How to sound /ʌ/',
-        image: 'https://drive.google.com/uc?export=view&id=1JrXTWS9UkWDZUILzjuqH3zmtbROfz3A7',
-        steps: `- Tutup mulut sedikit untuk bunyi /ʌ/.\n- Lidahmu harus berada di tengah mulut.\n- /ʌ/ adalah bunyi pendek dan rileks.`
+        image: 'https://lh3.googleusercontent.com/d/1JrXTWS9UkWDZUILzjuqH3zmtbROfz3A7',
+        steps: `- Latih suara /æ/.\n- Tutup mulut sedikit untuk /ʌ/.\n- Lidah berada di posisi tengah mulut.\n- /ʌ/ adalah vokal pendek dan santai.`
       },
       letters: {
         title: 'Common letters for /ʌ/',
@@ -139,17 +193,20 @@ Jebakan: Jangan dibaca u Indonesia. Ini bunyi “a samar”. Buka mulut hanya se
     btn.addEventListener('click', () => {
       const type = btn.dataset.type;
       overlay.classList.remove('active');
+
       const data = ipaData['ʌ'][type];
       detailTitle.textContent = data.title;
+
       if(type === 'sound') {
         detailImage.src = data.image;
         detailImage.style.display = 'block';
       } else {
         detailImage.style.display = 'none';
       }
+
       detailText.textContent = type === 'sound' ? data.steps : data.letters;
+
       detailOverlay.classList.add('active');
     });
   });
-
 })();

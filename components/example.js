@@ -222,4 +222,5 @@
     wordGrid.appendChild(card);
   });
 
+  
 })();

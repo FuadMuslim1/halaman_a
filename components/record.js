@@ -235,6 +235,7 @@
       audio.src = URL.createObjectURL(audioBlob); 
       playBtn.disabled = resetBtn.disabled = downloadBtn.disabled = false; 
       recordBtn.classList.add('locked'); saveAudioToDB(audioBlob);
+      recorder = null; // reset recorder agar bisa rekam lagi
     }};
   }
 
@@ -255,20 +256,31 @@
   /* =========================
      RECORD BUTTON
   ========================= */
-  recordBtn.onclick=async()=>{
+  recordBtn.onclick = async () => {
     if(recordBtn.classList.contains('locked')) return;
 
-     // Scroll otomatis ke paling atas
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+    // Scroll ke word-card pertama di example.js
+    const exampleContainer = document.querySelector('.container.module-container.focus-primary');
+    if(exampleContainer){
+      const wordCards = exampleContainer.querySelectorAll('.word-card');
+      if(wordCards.length > 0) wordCards[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
 
-    if(!recorder){ await startRecording(); recordBtn.textContent='⏹'; recordBtn.classList.add('blink'); }
-    else { recorder.stop(); recordBtn.classList.remove('blink'); recordBtn.textContent='⏺'; }
+    if(!recorder){
+      await startRecording();
+      recordBtn.textContent='⏹';
+      recordBtn.classList.add('blink');
+    } else {
+      recorder.stop();
+      recordBtn.classList.remove('blink');
+      recordBtn.textContent='⏺';
+    }
   }
 
   /* =========================
      PLAY BUTTON
   ========================= */
-  playBtn.onclick=()=>{
+  playBtn.onclick = () => {
     if(!audioBlob) return;
     if(audio.paused){ audio.play(); playBtn.textContent='⏹'; }
     else{ audio.pause(); audio.currentTime=0; playBtn.textContent='▶'; }
@@ -277,7 +289,7 @@
   /* =========================
      RESET BUTTON
   ========================= */
-  resetBtn.onclick=()=>{
+  resetBtn.onclick = () => {
     audio.pause(); audio.src&&URL.revokeObjectURL(audio.src); audio.src=''; audioBlob=null;
     playBtn.textContent='▶'; playBtn.disabled=resetBtn.disabled=downloadBtn.disabled=true;
     recordBtn.classList.remove('locked'); deleteAudioFromDB();
@@ -286,7 +298,7 @@
   /* =========================
      DOWNLOAD BUTTON
   ========================= */
-  downloadBtn.onclick=()=>{
+  downloadBtn.onclick = () => {
     if(!audioBlob) return;
     const a=document.createElement('a'); a.href=URL.createObjectURL(audioBlob); a.download='recording.wav'; a.click(); URL.revokeObjectURL(a.href);
   }
@@ -299,16 +311,11 @@
     overlay.style.display = 'flex';
     popup.classList.remove('hidden');
     requestAnimationFrame(() => popup.classList.add('show'));
-
-    // Scroll otomatis ke popup
     popup.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
   overlay.onclick = () => {
     popup.classList.remove('show');
-    setTimeout(() => {
-      popup.classList.add('hidden');
-      overlay.style.display = 'none';
-    }, 250);
+    setTimeout(() => { popup.classList.add('hidden'); overlay.style.display = 'none'; }, 250);
   }
 
   /* =========================
